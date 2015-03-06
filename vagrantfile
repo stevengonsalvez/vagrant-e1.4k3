@@ -1,0 +1,26 @@
+VAGRANTFILE_API_VERSION = "2"
+
+VM_NAME = "cent04-blah"
+VM_IP= "192.168.56.80"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+  config.vm.box = "CentOS-6.4-x86_64-v20130731"
+  config.vm.box_url = "http://developer.nrel.gov/downloads/vagrant-boxes/CentOS-6.4-x86_64-v20130731.box"
+
+  config.vm.define :vmbox do |vmbox|
+    vmbox.vm.hostname = VM_NAME
+    vmbox.vm.network :private_network, ip: VM_IP
+	config.vm.network :forwarded_port, guest: 9200, host: 9200
+	config.vm.network "forwarded_port", guest: 5601, host: 5601
+    vmbox.vm.provider :virtualbox do |v|
+      v.name = VM_NAME
+      v.customize ["modifyvm", :id, "--memory", 4096] 
+      v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+    end
+  end
+
+  config.vm.provision "shell", path: "provisioning/elasticsearch.sh"
+  config.vm.provision "shell", path: "provisioning/kibana.sh"
+  
+end
