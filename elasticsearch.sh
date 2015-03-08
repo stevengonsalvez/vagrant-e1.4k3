@@ -1,36 +1,42 @@
 #! /bin/bash
-# place the package elasticsearch-1.4.4.deb or whatever is the latest version in the ./files folder or you can do a wget and alter the script to dynamically download as well.
+# place the package elasticsearch-1.4.4.rpm or whatever is the latest version in the ./files folder or you can do a wget and alter the script to dynamically download as well.
 # Also download the latest java version - preverabbly do a apt-get for openjdk 1.7 - Refer to the graylog2 install in the other repository
 
 
 
 # Set variables
-FILES=/vagrant/provisioning/files
+FILES=Vagrant/files
 
+# Java is already installed from provisioning.sh - if  you have a custom version of java , place it in files and use it from here
 # Install java 7
-if [ "$1" == "64" ]; then
-	jre="jre-7u75-linux-x64.tar.gz"
-else
-	jre="jre-7u75-linux-i586.tar.gz"
-fi
+#if [ "$1" == "64" ]; then
+#	jre="jre-7u75-linux-x64.tar.gz"
+#else
+#	jre="jre-7u75-linux-i586.tar.gz"
+#fi
 
-tar -C /usr/local -zxf ${FILES}/${jre}
-ln -snf /usr/local/jre1.7.0_75 /usr/local/java
+#tar -C /usr/local -zxf ${FILES}/${jre}
+#ln -snf /usr/local/jre1.7.0_75 /usr/local/java
 
 # Check wether elasticsearch is already installed
-dpkg-query -W elasticsearch
+
+rpm -qa | grep elasticsearch
+echo $?
 
 if [ $? -ne 0 ]; then
-
+	# Download elasticsearch rpm
+	wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.4.4.noarch.rpm
+		
 	# Install elasticsearch from provided .deb package
-	dpkg -i ${FILES}/elasticsearch-1.4.4.deb
-
-	# write JAVA_HOME for elasticsearch
-	echo "export JAVA_HOME=/usr/local/java" >> /etc/default/elasticsearch
+	yum install -y elasticsearch-1.4.4.noarch.rpm
+	
+	# To install from file comment the above line and uncomment the one below
+	# rpm -ivh Vagrant/files/elasticsearch-1.4.4.noarch.rpm
 
 	# Add elasticsearch to startupscripts and start it
-	update-rc.d elasticsearch defaults 95 10
-
+	#update-rc.d elasticsearch defaults 95 10
+	
+	chkconfig --add elasticsearch
 	service elasticsearch start
 
 	echo "Waiting for elasticsearch to startup ..."
@@ -52,5 +58,23 @@ if [ $? -ne 0 ]; then
 	echo "Finished importing sample data!"
 
 else
+	# http basic auth plugin
+	mkdir /usr/share/elasticsearch/plugins/http-basic
+	wget https://github.com/Asquera/elasticsearch-http-basic/releases/download/v1.4.0/elasticsearch-http-basic-1.4.0.jar
+	mv elasticsearch-http-basic-1.4.0.jar /usr/share/elasticsearch/plugins/http-basic
 	service elasticsearch start
 fi
+
+# http basic auth plugin
+kdir /usr/share/elasticsearch/plugins/http-basic
+get https://github.com/Asquera/elasticsearch-http-basic/releases/download/v1.4.0/elasticsearch-http-basic-1.4.0.jar
+v elasticsearch-http-basic-1.4.0.jar /usr/share/elasticsearch/plugins/http-basic
+
+add configuration details to elasticsearch.yml - if you need , edit the file manually later
+v /etc/elasticsearch/elasticsearch.yml /etc/elasticsearch/elasticsearch.original.yml
+get https://github.com/stevengonsalvez/generalstuff/blob/master/elasticsearch.yml
+v elasticsearch.yml /etc/elasticsearch/elasticsearch.yml
+
+service elasticsearch restart
+
+	

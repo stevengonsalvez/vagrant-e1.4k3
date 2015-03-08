@@ -1,7 +1,7 @@
 VAGRANTFILE_API_VERSION = "2"
 
-VM_NAME = "cent04-blah"
-VM_IP= "192.168.56.80"
+VM_NAME = "ELK"
+VM_IP= "192.168.56.10"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
@@ -20,7 +20,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
   end
 
-  config.vm.provision "shell", path: "provisioning/elasticsearch.sh"
-  config.vm.provision "shell", path: "provisioning/kibana.sh"
+  config.vm.provision "shell", path: "provisioning.sh"
   
 end
