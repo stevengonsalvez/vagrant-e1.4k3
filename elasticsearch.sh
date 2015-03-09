@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/bin/bash
 # place the package elasticsearch-1.4.4.rpm or whatever is the latest version in the ./files folder or you can do a wget and alter the script to dynamically download as well.
 # Also download the latest java version - preverabbly do a apt-get for openjdk 1.7 - Refer to the graylog2 install in the other repository
 
