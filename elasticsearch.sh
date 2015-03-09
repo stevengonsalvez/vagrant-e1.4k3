@@ -71,7 +71,7 @@ mv /etc/elasticsearch/elasticsearch.yml /etc/elasticsearch/elasticsearch.origina
 echo " this is the current folder we are in"
 pwd
 
-cp ../elasticsearch.yml /etc/elasticsearch/elasticsearch.yml
+cp /home/vagrant/vagrant-e1.4k3/elasticsearch.yml /etc/elasticsearch/elasticsearch.yml
 
 service elasticsearch restart
 
