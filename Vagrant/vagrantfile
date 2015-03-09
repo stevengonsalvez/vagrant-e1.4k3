@@ -1,7 +1,7 @@
 VAGRANTFILE_API_VERSION = "2"
 
-VM_NAME = "ELK"
-VM_IP= "192.168.56.10"
+VM_NAME = "something"
+VM_IP= "192.168.56.90"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
@@ -11,9 +11,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.define :vmbox do |vmbox|
     vmbox.vm.hostname = VM_NAME
     vmbox.vm.network :private_network, ip: VM_IP
-	config.vm.network :forwarded_port, guest: 9200, host: 9200
-	config.vm.network "forwarded_port", guest: 5601, host: 5601
-    vmbox.vm.provider :virtualbox do |v|
+	vmbox.vm.provider :virtualbox do |v|
       v.name = VM_NAME
       v.customize ["modifyvm", :id, "--memory", 4096] 
       v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]

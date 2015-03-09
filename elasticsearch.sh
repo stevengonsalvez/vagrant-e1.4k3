@@ -60,11 +60,18 @@ yum install -y elasticsearch-1.4.4.noarch.rpm
 # http basic auth plugin
 mkdir /usr/share/elasticsearch/plugins/http-basic
 wget -O elasticsearch-http-basic-1.4.0.jar https://github.com/Asquera/elasticsearch-http-basic/releases/download/v1.4.0/elasticsearch-http-basic-1.4.0.jar
-mv elasticsearch-http-basic-1.4.0.jar /usr/share/elasticsearch/plugins/http-basic
+cp elasticsearch-http-basic-1.4.0.jar /usr/share/elasticsearch/plugins/http-basic
+
+
+
 
 #add configuration details to elasticsearch.yml - if you need , edit the file manually later
 mv /etc/elasticsearch/elasticsearch.yml /etc/elasticsearch/elasticsearch.original.yml
-mv elasticsearch.yml /etc/elasticsearch/elasticsearch.yml
+
+echo " this is the current folder we are in"
+pwd
+
+cp ../elasticsearch.yml /etc/elasticsearch/elasticsearch.yml
 
 service elasticsearch restart
 
