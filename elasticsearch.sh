@@ -60,7 +60,6 @@ mv elasticsearch-http-basic-1.4.0.jar /usr/share/elasticsearch/plugins/http-basi
 
 #add configuration details to elasticsearch.yml - if you need , edit the file manually later
 mv /etc/elasticsearch/elasticsearch.yml /etc/elasticsearch/elasticsearch.original.yml
-wget https://github.com/stevengonsalvez/generalstuff/blob/master/elasticsearch.yml
 mv elasticsearch.yml /etc/elasticsearch/elasticsearch.yml
 
 service elasticsearch restart
