@@ -41,7 +41,9 @@ yum install -y elasticsearch-1.4.4.noarch.rpm
 		
 	# Installing HQ plugin for the management of elastic search
 	/usr/share/elasticsearch/bin/plugin --install royrusso/elasticsearch-HQ
-
+	
+	# Installing Head plugin
+	/usr/share/elasticsearch/bin/plugin --install mobz/elasticsearch-head
 
         # Import sample data
         echo "Importing sample data ..."
