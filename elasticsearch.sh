@@ -2,7 +2,16 @@
 # place the package elasticsearch-1.4.4.rpm or whatever is the latest version in the ./files folder or you can do a wget and alter the script to dynamically download as well.
 # Also download the latest java version - preverabbly do a apt-get for openjdk 1.7 - Refer to the graylog2 install in the other repository
 
-
+#yum installs
+sudo yum install -y dos2unix
+sudo yum install -y java-1.7.0-openjdk.x86_64
+sudo yum install -y mlocate
+sudo yum install -y telnet
+sudo yum install -y screen
+sudo yum install -y vim
+sudo yum install -y git
+sudo yum install -y wget
+sudo yum update -y
 
 # Set variables
 FILES=Vagrant/files
