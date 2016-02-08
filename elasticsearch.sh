@@ -29,9 +29,9 @@ FILES=Vagrant/files
 
 # Check wether elasticsearch is already installed
 # Download elasticsearch rpm
-wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.4.4.noarch.rpm
+sudo wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.4.4.noarch.rpm
 # Install elasticsearch from provided .deb package
-yum install -y elasticsearch-1.4.4.noarch.rpm
+sudo yum install -y elasticsearch-1.4.4.noarch.rpm
 
         # To install from file comment the above line and uncomment the one below
         # rpm -ivh Vagrant/files/elasticsearch-1.4.4.noarch.rpm
@@ -39,24 +39,24 @@ yum install -y elasticsearch-1.4.4.noarch.rpm
         # Add elasticsearch to startupscripts and start it
         #update-rc.d elasticsearch defaults 95 10
 
-        chkconfig --add elasticsearch
-        service elasticsearch start
+       sudo  chkconfig --add elasticsearch
+       sudo  service elasticsearch start
 
-        echo "Waiting for elasticsearch to startup ..."
+      	sudo echo "Waiting for elasticsearch to startup ..."
         until curl -s --connect-timeout 1 localhost:9200; do
                 echo "."
                 sleep 1
         done
 		
 	# Installing HQ plugin for the management of elastic search
-	/usr/share/elasticsearch/bin/plugin --install royrusso/elasticsearch-HQ
+	sudo /usr/share/elasticsearch/bin/plugin --install royrusso/elasticsearch-HQ
 	
 	# Installing Head plugin
-	/usr/share/elasticsearch/bin/plugin --install mobz/elasticsearch-head
+	sudo /usr/share/elasticsearch/bin/plugin --install mobz/elasticsearch-head
 
         # Import sample data
         echo "Importing sample data ..."
-        curl -s -XPUT 'localhost:9200/_snapshot/sampledata/' -d '{
+         curl -s -XPUT 'localhost:9200/_snapshot/sampledata/' -d '{
                 "type": "fs",
                 "settings": {
                         "location": "/vagrant/sampledata/",
@@ -69,22 +69,22 @@ yum install -y elasticsearch-1.4.4.noarch.rpm
 
 
 # http basic auth plugin
-mkdir /usr/share/elasticsearch/plugins/http-basic
-wget -O elasticsearch-http-basic-1.4.0.jar https://github.com/Asquera/elasticsearch-http-basic/releases/download/v1.4.0/elasticsearch-http-basic-1.4.0.jar
-cp elasticsearch-http-basic-1.4.0.jar /usr/share/elasticsearch/plugins/http-basic
+sudo mkdir /usr/share/elasticsearch/plugins/http-basic
+sudo wget -O elasticsearch-http-basic-1.4.0.jar https://github.com/Asquera/elasticsearch-http-basic/releases/download/v1.4.0/elasticsearch-http-basic-1.4.0.jar
+sudo cp elasticsearch-http-basic-1.4.0.jar /usr/share/elasticsearch/plugins/http-basic
 
 
 
 
 #add configuration details to elasticsearch.yml - if you need , edit the file manually later
-mv /etc/elasticsearch/elasticsearch.yml /etc/elasticsearch/elasticsearch.original.yml
+sudo mv /etc/elasticsearch/elasticsearch.yml /etc/elasticsearch/elasticsearch.original.yml
 
-echo " this is the current folder we are in"
-pwd
+sudo echo " this is the current folder we are in"
+sudo pwd
 
-cp /home/vagrant/vagrant-e1.4k3/elasticsearch.yml /etc/elasticsearch/elasticsearch.yml
+sudo cp /home/vagrant/vagrant-e1.4k3/elasticsearch.yml /etc/elasticsearch/elasticsearch.yml
 
-service elasticsearch restart
+sudo service elasticsearch restart
 
 
 
